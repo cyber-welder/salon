@@ -3,133 +3,133 @@ USE salon;
 DROP TABLE IF EXISTS clients;
 CREATE TABLE clients (
 	id SERIAL PRIMARY KEY,
-	first_name VARCHAR(255) COMMENT 'Имя',
-	last_name VARCHAR(255) COMMENT 'Фамилия',
-	telephone VARCHAR(11) NOT NULL COMMENT 'Телефон',
+	first_name VARCHAR(255) COMMENT 'РРјСЏ',
+	last_name VARCHAR(255) COMMENT 'Р¤Р°РјРёР»РёСЏ',
+	telephone VARCHAR(11) NOT NULL COMMENT 'РўРµР»РµС„РѕРЅ',
 	email VARCHAR(255) COMMENT 'Email',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-) COMMENT = 'Клиенты';
+) COMMENT = 'РљР»РёРµРЅС‚С‹';
 
 
 DROP TABLE IF EXISTS profiles;
 CREATE TABLE profiles (
-	client_id BIGINT UNSIGNED COMMENT 'ID клиента',
+	client_id BIGINT UNSIGNED COMMENT 'ID РєР»РёРµРЅС‚Р°',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT profiles_client_id_fk FOREIGN KEY (client_id)  REFERENCES clients(id)
-) COMMENT = 'Анкеты клиентов';
+) COMMENT = 'РђРЅРєРµС‚С‹ РєР»РёРµРЅС‚РѕРІ';
 
 
 DROP TABLE IF EXISTS servises;
 CREATE TABLE servises (
 	id SERIAL PRIMARY KEY,
-	name VARCHAR(255) NOT NULL COMMENT 'Название услуги',
-	price DECIMAL (11,2) COMMENT 'Цена услуги',
+	name VARCHAR(255) NOT NULL COMMENT 'РќР°Р·РІР°РЅРёРµ СѓСЃР»СѓРіРё',
+	price DECIMAL (11,2) COMMENT 'Р¦РµРЅР° СѓСЃР»СѓРіРё',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 	UNIQUE unique_name(name(10))
-) COMMENT = 'Услуги';
+) COMMENT = 'РЈСЃР»СѓРіРё';
 
 
 DROP TABLE IF EXISTS storehouse;
 CREATE TABLE storehouse (
 	id SERIAL PRIMARY KEY,
-	name VARCHAR(255) NOT NULL COMMENT 'Наименование расходника',
-	category ENUM('cosmetic', 'consumable') NOT NULL COMMENT 'Категория расходника',	
-	unit VARCHAR(20) NOT NULL COMMENT 'Единица измерения',
-	actual_price DECIMAL (11,2) COMMENT 'Актуальная цена за единицу расходника',
-	quantity FLOAT NOT NULL DEFAULT 0 COMMENT 'Общее количество',
+	name VARCHAR(255) NOT NULL COMMENT 'РќР°РёРјРµРЅРѕРІР°РЅРёРµ СЂР°СЃС…РѕРґРЅРёРєР°',
+	category ENUM('cosmetic', 'consumable') NOT NULL COMMENT 'РљР°С‚РµРіРѕСЂРёСЏ СЂР°СЃС…РѕРґРЅРёРєР°',	
+	unit VARCHAR(20) NOT NULL COMMENT 'Р•РґРёРЅРёС†Р° РёР·РјРµСЂРµРЅРёСЏ',
+	actual_price DECIMAL (11,2) COMMENT 'РђРєС‚СѓР°Р»СЊРЅР°СЏ С†РµРЅР° Р·Р° РµРґРёРЅРёС†Сѓ СЂР°СЃС…РѕРґРЅРёРєР°',
+	quantity FLOAT NOT NULL DEFAULT 0 COMMENT 'РћР±С‰РµРµ РєРѕР»РёС‡РµСЃС‚РІРѕ',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 	UNIQUE unique_name(name(10))
-) COMMENT = 'Склад';
+) COMMENT = 'РЎРєР»Р°Рґ';
 
 
 DROP TABLE IF EXISTS consumption;
 CREATE TABLE consumption (
 	id SERIAL PRIMARY KEY,
-	servise_id BIGINT UNSIGNED NOT NULL COMMENT 'Услуга',
-	consumable_id BIGINT UNSIGNED NOT NULL COMMENT 'Расходник',
-	unit VARCHAR(20) NOT NULL COMMENT 'Единица измерения',
-	volume_units FLOAT DEFAULT 0 NOT NULL COMMENT 'Расходуемое количество',
+	servise_id BIGINT UNSIGNED NOT NULL COMMENT 'РЈСЃР»СѓРіР°',
+	consumable_id BIGINT UNSIGNED NOT NULL COMMENT 'Р Р°СЃС…РѕРґРЅРёРє',
+	unit VARCHAR(20) NOT NULL COMMENT 'Р•РґРёРЅРёС†Р° РёР·РјРµСЂРµРЅРёСЏ',
+	volume_units FLOAT DEFAULT 0 NOT NULL COMMENT 'Р Р°СЃС…РѕРґСѓРµРјРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT consumption_servise_id_fk FOREIGN KEY (servise_id)  REFERENCES servises(id),
  	CONSTRAINT consumption_consumable_id_fk FOREIGN KEY (consumable_id)  REFERENCES storehouse(id)
-) COMMENT = 'Расход материалов';
+) COMMENT = 'Р Р°СЃС…РѕРґ РјР°С‚РµСЂРёР°Р»РѕРІ';
 
 
 DROP TABLE IF EXISTS sales;
 CREATE TABLE sales (
 	id SERIAL PRIMARY KEY,
-	client_id BIGINT UNSIGNED COMMENT 'Клиент',
-	consumable_id BIGINT UNSIGNED NOT NULL COMMENT 'ID расходника',
-	unit VARCHAR(20) NOT NULL COMMENT 'Единица измерения',
-	unit_volume FLOAT UNSIGNED DEFAULT 0 NOT NULL COMMENT 'Проданное количество',
-	unit_price FLOAT DEFAULT 0 NOT NULL COMMENT 'Цена за единицу',
+	client_id BIGINT UNSIGNED COMMENT 'РљР»РёРµРЅС‚',
+	consumable_id BIGINT UNSIGNED NOT NULL COMMENT 'ID СЂР°СЃС…РѕРґРЅРёРєР°',
+	unit VARCHAR(20) NOT NULL COMMENT 'Р•РґРёРЅРёС†Р° РёР·РјРµСЂРµРЅРёСЏ',
+	unit_volume FLOAT UNSIGNED DEFAULT 0 NOT NULL COMMENT 'РџСЂРѕРґР°РЅРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ',
+	unit_price FLOAT DEFAULT 0 NOT NULL COMMENT 'Р¦РµРЅР° Р·Р° РµРґРёРЅРёС†Сѓ',
 	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT sales_client_id_fk FOREIGN KEY (client_id)  REFERENCES clients(id),
 	CONSTRAINT sales_consumable_id_fk FOREIGN KEY (consumable_id)  REFERENCES storehouse(id)
-) COMMENT = 'Продажи';
+) COMMENT = 'РџСЂРѕРґР°Р¶Рё';
 
 
 DROP TABLE IF EXISTS purchases;
 CREATE TABLE purchases (
 	id SERIAL PRIMARY KEY,
-	consumable_id BIGINT UNSIGNED NOT NULL COMMENT 'ID расходника',
-	unit VARCHAR(20) NOT NULL COMMENT 'Единица измерения',
-	unit_volume FLOAT DEFAULT 0 NOT NULL COMMENT 'Закупаемое количество',
-	unit_price FLOAT DEFAULT 0 NOT NULL COMMENT 'Цена за единицу',
+	consumable_id BIGINT UNSIGNED NOT NULL COMMENT 'ID СЂР°СЃС…РѕРґРЅРёРєР°',
+	unit VARCHAR(20) NOT NULL COMMENT 'Р•РґРёРЅРёС†Р° РёР·РјРµСЂРµРЅРёСЏ',
+	unit_volume FLOAT DEFAULT 0 NOT NULL COMMENT 'Р—Р°РєСѓРїР°РµРјРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ',
+	unit_price FLOAT DEFAULT 0 NOT NULL COMMENT 'Р¦РµРЅР° Р·Р° РµРґРёРЅРёС†Сѓ',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT purchases_consumable_id_fk FOREIGN KEY (consumable_id)  REFERENCES storehouse(id)
-) COMMENT = 'Закупки';
+) COMMENT = 'Р—Р°РєСѓРїРєРё';
 
 
 DROP TABLE IF EXISTS visits;
 CREATE TABLE visits (
 	id SERIAL PRIMARY KEY,
-	client_id BIGINT UNSIGNED COMMENT 'Клиент',
-	servise_id BIGINT UNSIGNED NOT NULL COMMENT 'Услуга',
-	completed BOOLEAN NOT NULL COMMENT 'Услуга оказана',
-	visit_time DATETIME NOT NULL COMMENT 'Время приема',
+	client_id BIGINT UNSIGNED COMMENT 'РљР»РёРµРЅС‚',
+	servise_id BIGINT UNSIGNED NOT NULL COMMENT 'РЈСЃР»СѓРіР°',
+	completed BOOLEAN NOT NULL COMMENT 'РЈСЃР»СѓРіР° РѕРєР°Р·Р°РЅР°',
+	visit_time DATETIME NOT NULL COMMENT 'Р’СЂРµРјСЏ РїСЂРёРµРјР°',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT visits_client_id_fk FOREIGN KEY (client_id)  REFERENCES clients(id),
 	CONSTRAINT visits_servise_id_fk FOREIGN KEY (servise_id)  REFERENCES servises(id)
-) COMMENT = 'Посещения';
+) COMMENT = 'РџРѕСЃРµС‰РµРЅРёСЏ';
 
 
 DROP TABLE IF EXISTS media;
 CREATE TABLE media (
 	id SERIAL PRIMARY KEY,
-	client_id BIGINT UNSIGNED NOT NULL COMMENT 'Клиент',
-	visit_id BIGINT UNSIGNED COMMENT 'Визит',
-	type_file ENUM('photo', 'video') NOT NULL COMMENT 'Тип файла',
-	path_file VARCHAR(255) NOT NULL COMMENT 'Путь к файлу',
+	client_id BIGINT UNSIGNED NOT NULL COMMENT 'РљР»РёРµРЅС‚',
+	visit_id BIGINT UNSIGNED COMMENT 'Р’РёР·РёС‚',
+	type_file ENUM('photo', 'video') NOT NULL COMMENT 'РўРёРї С„Р°Р№Р»Р°',
+	path_file VARCHAR(255) NOT NULL COMMENT 'РџСѓС‚СЊ Рє С„Р°Р№Р»Сѓ',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	UNIQUE unique_name(path_file),
 	CONSTRAINT media_client_id_fk FOREIGN KEY (client_id)  REFERENCES clients(id),
 	CONSTRAINT media_visit_id_fk FOREIGN KEY (visit_id)  REFERENCES visits(id)
-) COMMENT = 'Медиафайлы';
+) COMMENT = 'РњРµРґРёР°С„Р°Р№Р»С‹';
 
 
 DROP TABLE IF EXISTS promotions;
 CREATE TABLE promotions (
 	id SERIAL PRIMARY KEY,
-	name VARCHAR(255) COMMENT 'Название скидки',
-	servise_id BIGINT UNSIGNED COMMENT 'Услуга',
-	discount FLOAT DEFAULT 1.0 COMMENT 'Скидка',
-	from_date DATETIME NOT NULL COMMENT 'Дата начала скидки',
-	to_date DATETIME NOT NULL COMMENT 'Дата окончания скидки',
+	name VARCHAR(255) COMMENT 'РќР°Р·РІР°РЅРёРµ СЃРєРёРґРєРё',
+	servise_id BIGINT UNSIGNED COMMENT 'РЈСЃР»СѓРіР°',
+	discount FLOAT DEFAULT 1.0 COMMENT 'РЎРєРёРґРєР°',
+	from_date DATETIME NOT NULL COMMENT 'Р”Р°С‚Р° РЅР°С‡Р°Р»Р° СЃРєРёРґРєРё',
+	to_date DATETIME NOT NULL COMMENT 'Р”Р°С‚Р° РѕРєРѕРЅС‡Р°РЅРёСЏ СЃРєРёРґРєРё',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 	UNIQUE unique_name(name(10)),
 	CONSTRAINT promotions_servise_id_fk FOREIGN KEY (servise_id)  REFERENCES servises(id)
-) COMMENT = 'Акции скидок';
+) COMMENT = 'РђРєС†РёРё СЃРєРёРґРѕРє';
 
 
 DROP TABLE IF EXISTS expenses;
 CREATE TABLE expenses (
 	id SERIAL PRIMARY KEY,
-	name VARCHAR(255) NOT NULL COMMENT 'Наименование расхода',
-	unit VARCHAR(20) NOT NULL COMMENT 'Единица измерения',
-	price DECIMAL (11,2) NOT NULL COMMENT 'Стоимость',
+	name VARCHAR(255) NOT NULL COMMENT 'РќР°РёРјРµРЅРѕРІР°РЅРёРµ СЂР°СЃС…РѕРґР°',
+	unit VARCHAR(20) NOT NULL COMMENT 'Р•РґРёРЅРёС†Р° РёР·РјРµСЂРµРЅРёСЏ',
+	price DECIMAL (11,2) NOT NULL COMMENT 'РЎС‚РѕРёРјРѕСЃС‚СЊ',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 	UNIQUE unique_name(name(10))
-) COMMENT = 'Расходы на бизнес';
+) COMMENT = 'Р Р°СЃС…РѕРґС‹ РЅР° Р±РёР·РЅРµСЃ';
 

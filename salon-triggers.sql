@@ -1,10 +1,10 @@
 USE salon;
--- ТРИГГЕРЫ, ПРОЦЕДУРЫ
+-- РўР РР“Р“Р•Р Р«, РџР РћР¦Р•Р”РЈР Р«
 
 DELIMITER //
 
 
--- Изменение данных в таблице - склад
+-- РР·РјРµРЅРµРЅРёРµ РґР°РЅРЅС‹С… РІ С‚Р°Р±Р»РёС†Рµ - СЃРєР»Р°Рґ
 DROP PROCEDURE IF EXISTS storehouse_change_value //
 CREATE PROCEDURE storehouse_change_value(add_value BOOL, target_id BIGINT, volume FLOAT)
 	BEGIN
@@ -17,7 +17,7 @@ CREATE PROCEDURE storehouse_change_value(add_value BOOL, target_id BIGINT, volum
 
 
 
--- Добавление записи в таблицу - закупки
+-- Р”РѕР±Р°РІР»РµРЅРёРµ Р·Р°РїРёСЃРё РІ С‚Р°Р±Р»РёС†Сѓ - Р·Р°РєСѓРїРєРё
 DROP TRIGGER IF EXISTS add_purchase //
 CREATE TRIGGER add_purchase AFTER INSERT ON purchases
 	FOR EACH ROW
@@ -26,7 +26,7 @@ CREATE TRIGGER add_purchase AFTER INSERT ON purchases
 	END //
  
 	
--- Удаление записи из таблицы - закупки
+-- РЈРґР°Р»РµРЅРёРµ Р·Р°РїРёСЃРё РёР· С‚Р°Р±Р»РёС†С‹ - Р·Р°РєСѓРїРєРё
 DROP TRIGGER IF EXISTS del_purchase //
 CREATE TRIGGER del_purchase BEFORE DELETE ON purchases
 	FOR EACH ROW
@@ -35,7 +35,7 @@ CREATE TRIGGER del_purchase BEFORE DELETE ON purchases
 	END //
  
 	
--- Добавление записи в таблицу - продажи
+-- Р”РѕР±Р°РІР»РµРЅРёРµ Р·Р°РїРёСЃРё РІ С‚Р°Р±Р»РёС†Сѓ - РїСЂРѕРґР°Р¶Рё
 DROP TRIGGER IF EXISTS add_sale //
 CREATE TRIGGER add_sale AFTER INSERT ON sales
 	FOR EACH ROW
@@ -44,7 +44,7 @@ CREATE TRIGGER add_sale AFTER INSERT ON sales
 	END //
  
 	
--- Удаление записи из таблицы - продажи
+-- РЈРґР°Р»РµРЅРёРµ Р·Р°РїРёСЃРё РёР· С‚Р°Р±Р»РёС†С‹ - РїСЂРѕРґР°Р¶Рё
 DROP TRIGGER IF EXISTS del_sale //
 CREATE TRIGGER del_sale BEFORE DELETE ON sales
 	FOR EACH ROW
