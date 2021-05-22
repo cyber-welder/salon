@@ -3,6 +3,11 @@ USE salon;
 
 DELIMITER //
 
+/* 
+триггеры на добавление записей в таблицы "Закупки" и "Продажи", 
+при добавлении записи в таблицу "Склад" плюсуется количество закупленного 
+или отнимается количество проданного товара/расходника
+*/
 
 -- Изменение данных в таблице - склад
 DROP PROCEDURE IF EXISTS storehouse_change_value //
@@ -26,7 +31,7 @@ CREATE TRIGGER add_purchase AFTER INSERT ON purchases
 	END //
  
 	
--- Удаление записи из таблицы - закупки
+-- Удаление записи из таблицы - закупки (если ошибочно добавлена)
 DROP TRIGGER IF EXISTS del_purchase //
 CREATE TRIGGER del_purchase BEFORE DELETE ON purchases
 	FOR EACH ROW
@@ -44,7 +49,7 @@ CREATE TRIGGER add_sale AFTER INSERT ON sales
 	END //
  
 	
--- Удаление записи из таблицы - продажи
+-- Удаление записи из таблицы - продажи (если ошибочно добавлена)
 DROP TRIGGER IF EXISTS del_sale //
 CREATE TRIGGER del_sale BEFORE DELETE ON sales
 	FOR EACH ROW
