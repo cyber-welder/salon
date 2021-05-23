@@ -95,9 +95,8 @@ CREATE TABLE sales (
 	id SERIAL PRIMARY KEY,
 	client_id BIGINT UNSIGNED COMMENT 'Клиент',
 	consumable_id BIGINT UNSIGNED NOT NULL COMMENT 'ID расходника',
-	unit VARCHAR(20) NOT NULL COMMENT 'Единица измерения',
-	unit_volume FLOAT UNSIGNED DEFAULT 0 NOT NULL COMMENT 'Проданное количество',
-	unit_price DECIMAL (11,2) DEFAULT 0 NOT NULL COMMENT 'Цена за единицу',
+	volume FLOAT UNSIGNED DEFAULT 0 NOT NULL COMMENT 'Проданное количество',
+	price DECIMAL (11,2) DEFAULT 0 NOT NULL COMMENT 'Цена за единицу',
 	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT sales_client_id_fk FOREIGN KEY (client_id)  REFERENCES clients(id),
 	CONSTRAINT sales_consumable_id_fk FOREIGN KEY (consumable_id)  REFERENCES storehouse(id)
@@ -108,9 +107,8 @@ DROP TABLE IF EXISTS purchases;
 CREATE TABLE purchases (
 	id SERIAL PRIMARY KEY,
 	consumable_id BIGINT UNSIGNED NOT NULL COMMENT 'ID расходника',
-	unit VARCHAR(20) NOT NULL COMMENT 'Единица измерения',
-	unit_volume FLOAT DEFAULT 0 NOT NULL COMMENT 'Закупаемое количество',
-	unit_price DECIMAL (11,2) DEFAULT 0 NOT NULL COMMENT 'Цена за единицу',
+	volume FLOAT DEFAULT 0 NOT NULL COMMENT 'Закупаемое количество',
+	price DECIMAL (11,2) DEFAULT 0 NOT NULL COMMENT 'Цена за единицу',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT purchases_consumable_id_fk FOREIGN KEY (consumable_id)  REFERENCES storehouse(id)
 ) COMMENT = 'Закупки';
@@ -154,7 +152,7 @@ CREATE TABLE promotions (
 	from_date DATETIME NOT NULL COMMENT 'Дата начала скидки',
 	to_date DATETIME NOT NULL COMMENT 'Дата окончания скидки',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-	UNIQUE unique_name(name(10)),
+	UNIQUE unique_name(name),
 	CONSTRAINT promotions_servise_id_fk FOREIGN KEY (servise_id)  REFERENCES servises(id)
 ) COMMENT = 'Акции скидок';
 
