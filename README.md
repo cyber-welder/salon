@@ -36,9 +36,9 @@
 ---
 #### Файлы
 > salon-tables.sql - создание таблиц и ключей
-salon-data.sql - заполнение данными
-salon-triggers.sql - создание триггеров
-salon-requests.sql - примеры запросов к базе данных
+> salon-data.sql - заполнение данными
+> salon-triggers.sql - создание триггеров
+> salon-requests.sql - примеры запросов к базе данных
 
 # [salon](https://github.com/cyber-welder/salon)
 
